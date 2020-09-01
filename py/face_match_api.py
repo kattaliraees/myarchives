@@ -55,4 +55,17 @@ def runMatchAlgorithm():
         print("exception")
         return [False]
 
+def crop_face_from_image(img, new_file_name):
+    source_image = face_recognition.load_image_file(img)
+    face_locations = face_recognition.face_locations(source_image, number_of_times_to_upsample=0, model="cnn")
+    for face_location in face_locations:
+        top, right, bottom, left = face_location
+        # print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom, right))
+
+        face_image = source_image[top:bottom, left:right]
+        pil_image = Image.fromarray(face_image)
+        pil_image.save(new_file_name)
+        pass
+    pass
+
 app.run(host='0.0.0.0', port=8080)
